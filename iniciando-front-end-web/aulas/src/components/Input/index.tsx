@@ -8,12 +8,13 @@ import React, {
 import { useField } from '@unform/core';
 
 import { IconType } from 'react-icons/lib/cjs';
+// import { IconBaseProps } from 'react-icons/lib/cjs';
 import { Container } from './styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   icon?: IconType;
-  //   // icon: React.ComponentType;
+  // icon?: React.ComponentType<IconBaseProps>;
 }
 
 const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
@@ -44,6 +45,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   return (
     <Container isFilled={isFilled} isFocused={isFocused}>
       {Icon && <Icon size={20} />}
+
       <input
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
@@ -51,6 +53,8 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
         defaultValue={defaultValue}
         {...rest}
       />
+
+      <p>{error}</p>
     </Container>
   );
 };
