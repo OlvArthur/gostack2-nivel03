@@ -3,7 +3,6 @@
     "browser": true,
     "es6": true
   },
-
   "extends": [
     "plugin:react/recommended",
     "airbnb",
@@ -26,17 +25,13 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint"],
   "rules": {
     "prettier/prettier": "error",
-    "react/prop-types": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "react/jsx-props-no-spreading": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "import/prefer-default-export": "off",
-    "object-curly-newline": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    "import/prefer-default-export": "off",
     "import/extensions": [
       "error",
-      "ignorePackages",
+      "IgnorePackages",
       {
         "ts": "never",
         "tsx": "never"
