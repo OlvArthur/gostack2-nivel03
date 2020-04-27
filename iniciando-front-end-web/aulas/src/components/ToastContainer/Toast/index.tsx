@@ -16,6 +16,7 @@ interface ToastProps {
     description?: string;
   };
   removeToast(id: string): void;
+  style: object;
 }
 
 const icons = {
@@ -24,7 +25,7 @@ const icons = {
   sucess: <FiCheckCircle size={24} />,
 };
 
-export const Toast: React.FC<ToastProps> = ({ toast, removeToast }) => {
+export const Toast: React.FC<ToastProps> = ({ toast, removeToast, style }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       removeToast(toast.id);
@@ -36,7 +37,11 @@ export const Toast: React.FC<ToastProps> = ({ toast, removeToast }) => {
   }, [toast.id, removeToast]);
 
   return (
-    <Container hasDescription={!!toast.description} type={toast.type}>
+    <Container
+      hasDescription={!!toast.description}
+      type={toast.type}
+      style={style}
+    >
       {icons[toast.type || 'info']}
 
       <div>
