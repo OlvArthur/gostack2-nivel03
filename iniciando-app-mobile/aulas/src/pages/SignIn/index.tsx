@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import {
   Image,
   View,
@@ -8,6 +8,9 @@ import {
   Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import { useNavigation } from '@react-navigation/native';
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -24,6 +27,13 @@ import {
 import logoImg from '../../assets/logo.png';
 
 const SignIn: React.FC = () => {
+  const formRef = useRef<FormHandles>(null);
+  const navigation = useNavigation();
+
+  const handleSignIn = useCallback((data: object) => {
+    console.log(data);
+  }, []);
+
   return (
     <>
       <KeyboardAvoidingView
@@ -32,7 +42,7 @@ const SignIn: React.FC = () => {
         enabled
       >
         <ScrollView
-          style={{ paddingVertical: 20, flex: 1 }}
+          contentContainerStyle={{ paddingVertical: 20, flex: 1 }}
           keyboardShouldPersistTaps="handled"
         >
           <Container>
@@ -40,17 +50,18 @@ const SignIn: React.FC = () => {
 
             <Title>Faça seu logon</Title>
 
-            <Input name="e-mail" icon="mail" placeholder="E-mail" />
-            <Input name="password" icon="lock" placeholder="Senha" />
+            <Form ref={formRef} onSubmit={handleSignIn}>
+              <Input name="e-mail" icon="mail" placeholder="E-mail" />
+              <Input name="password" icon="lock" placeholder="Senha" />
 
-            <Button
-              onPress={() => {
-                console.log('Deu');
-              }}
-            >
-              Entrar
-            </Button>
-
+              <Button
+                onPress={() => {
+                  formRef.current?.submitForm();
+                }}
+              >
+                Entrar
+              </Button>
+            </Form>
             <ForgotPassword onPress={() => console.log('apertou')}>
               <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
             </ForgotPassword>
@@ -58,7 +69,7 @@ const SignIn: React.FC = () => {
         </ScrollView>
       </KeyboardAvoidingView>
 
-      <CreateAccount onPress={() => {}}>
+      <CreateAccount onPress={() => navigation.navigate('SignUp')}>
         <Icon name="log-in" size={20} color="#ff9000" />
         <CreateAccountText>Criar conta</CreateAccountText>
       </CreateAccount>
