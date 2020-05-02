@@ -1,11 +1,9 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
   Image,
-  View,
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  Keyboard,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';

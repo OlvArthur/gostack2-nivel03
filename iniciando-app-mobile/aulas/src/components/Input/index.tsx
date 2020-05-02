@@ -9,25 +9,44 @@ interface InputProps extends TextInputProps {
   icon: string;
 }
 
+interface InputValueReference {
+  value: string;
+}
+
 const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
-  const InputRef = useRef(null);
-  const { fieldName, defaultValue, error, registerField } = useField(name);
+  const textInputRef = useRef<any>(null);
+
+  const { fieldName, defaultValue = '', error, registerField } = useField(name);
+  const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
   useEffect(() => {
     registerField({
       name: fieldName,
-      ref: InputRef.current,
+      ref: inputValueRef.current,
       path: 'value',
+      setValue(ref: any, value: string) {
+        inputValueRef.current.value = value;
+        textInputRef.current?.setNativeProps({ text: value });
+      },
+      clearValue() {
+        inputValueRef.current.value = '';
+        textInputRef.current.clear();
+      },
     });
-  }, []);
+  }, [registerField, fieldName]);
 
   return (
     <Container>
       <Icon name={icon} size={20} color="#666360" />
 
       <TextInput
+        ref={textInputRef}
         placeholderTextColor="#666360"
         keyboardAppearance="dark"
+        onChangeText={value => {
+          inputValueRef.current.value = value;
+        }}
+        defaultValue={defaultValue}
         {...rest}
       />
     </Container>
