@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  TextInput,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native';
@@ -19,6 +20,8 @@ import logoImg from '../../assets/logo.png';
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const emailInputRef = useRef<TextInput>(null);
+  const passwordInputRef = useRef<TextInput>(null);
 
   const navigation = useNavigation();
 
@@ -43,11 +46,39 @@ const SignIn: React.FC = () => {
             <Title>Crie sua conta</Title>
 
             <Form ref={formRef} onSubmit={handleSignUp}>
-              <Input name="name" icon="user" placeholder="Nome" />
+              <Input
+                autoCapitalize="words"
+                name="name"
+                icon="user"
+                placeholder="Nome"
+                returnKeyType="next"
+                onSubmitEditing={() => emailInputRef.current?.focus()}
+              />
 
-              <Input name="e-mail" icon="mail" placeholder="E-mail" />
+              <Input
+                ref={emailInputRef}
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                name="e-mail"
+                icon="mail"
+                placeholder="E-mail"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordInputRef.current?.focus()}
+              />
 
-              <Input name="password" icon="lock" placeholder="Senha" />
+              <Input
+                ref={passwordInputRef}
+                name="password"
+                icon="lock"
+                placeholder="Senha"
+                textContentType="newPassword"
+                secureTextEntry
+                returnKeyType="send"
+                onSubmitEditing={() => {
+                  formRef.current?.submitForm();
+                }}
+              />
 
               <Button
                 onPress={() => {
